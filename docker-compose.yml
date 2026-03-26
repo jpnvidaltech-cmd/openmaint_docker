@@ -4,14 +4,11 @@ volumes:
     openmaint-tomcat:
 
 services:
-
     openmaint_app:
         image: mrhavens/cmdbuild:app-3.1.1
         container_name: openmaint_app
-        links:
-           - openmaint_db
         depends_on:
-           - openmaint_db
+            - openmaint_db
         ports:
             - 8080:8080
         restart: on-failure    
@@ -24,20 +21,22 @@ services:
             - POSTGRES_HOST=openmaint_db
             - POSTGRES_DB=openmaint_3
             - OPENMAINT_DUMP=openmaint_empty.dump.xz
-            - JAVA_OPTS=-Xmx4000m -Xms2000m
+            - JAVA_OPTS=-Xmx3000m -Xms1500m
         mem_limit: 4000m
         mem_reservation: 2000m
         
     openmaint_db:
-        image: mrhavens/cmdbuild:db-3.0
+        # Cambiamos la imagen obsoleta por una compatible y moderna
+        image: postgis/postgis:12-3.0-alpine
         container_name: openmaint_db
         volumes:
-            - openmaint-db:/var/lib/postgresql
+            - openmaint-db:/var/lib/postgresql/data
         ports:
             - 5432:5432
         environment:
             - POSTGRES_USER=postgres
-            - POSTGRES_PASS=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=openmaint_3
         restart: on-failure
         mem_limit: 1000m
         mem_reservation: 300m
