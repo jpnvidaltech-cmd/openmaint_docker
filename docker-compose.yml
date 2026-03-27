@@ -2,16 +2,15 @@ services:
     openmaint_app:
         image: mrhavens/cmdbuild:app-3.1.1
         depends_on:
-            - openmaint_db
+            - openmaint_db_v2
         restart: on-failure    
         volumes:
-            - openmaint-tomcat:/usr/local/tomcat
+            - openmaint-tomcat-v2:/usr/local/tomcat
         environment:
-            # Forzamos los valores que la imagen trae por defecto internamente
             - POSTGRES_USER=cmdbuild
             - POSTGRES_PASS=cmdbuild
             - POSTGRES_PORT=5432
-            - POSTGRES_HOST=openmaint_db
+            - POSTGRES_HOST=openmaint_db_v2
             - POSTGRES_DB=openmaint_3
             - OPENMAINT_DUMP=openmaint_empty.dump.xz
             - JAVA_OPTS=-Xmx3000m -Xms1500m -Dcmdbuild.config.db.username=cmdbuild -Dcmdbuild.config.db.password=cmdbuild
@@ -20,12 +19,11 @@ services:
                 limits:
                     memory: 4000M
         
-    openmaint_db:
+    openmaint_db_v2:
         image: postgis/postgis:12-3.0-alpine
         volumes:
-            - openmaint-db:/var/lib/postgresql/data
+            - db_data_v2:/var/lib/postgresql/data
         environment:
-            # Definimos el usuario que la APP espera encontrar
             - POSTGRES_USER=cmdbuild
             - POSTGRES_PASSWORD=cmdbuild
             - POSTGRES_DB=openmaint_3
@@ -36,5 +34,5 @@ services:
                     memory: 1000M
 
 volumes:
-    openmaint-db:
-    openmaint-tomcat:
+    db_data_v2:
+    openmaint-tomcat-v2:
