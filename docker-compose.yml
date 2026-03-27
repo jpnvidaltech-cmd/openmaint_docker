@@ -7,6 +7,7 @@ services:
         volumes:
             - openmaint-tomcat:/usr/local/tomcat
         environment:
+            # IMPORTANTE: Cambiamos a usuario 'postgres' para coincidir con la DB
             - POSTGRES_USER=postgres
             - POSTGRES_PASS=postgres
             - POSTGRES_PORT=5432
