@@ -8,8 +8,8 @@ services:
             - openmaint-tomcat:/usr/local/tomcat
         environment:
             # IMPORTANTE: Cambiamos a usuario 'postgres' para coincidir con la DB
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASS=postgres
+            - POSTGRES_USER=cmdbuild
+            - POSTGRES_PASS=cmdbuild
             - POSTGRES_PORT=5432
             - POSTGRES_HOST=openmaint_db
             - POSTGRES_DB=openmaint_3
@@ -27,8 +27,8 @@ services:
         volumes:
             - openmaint-db:/var/lib/postgresql/data
         environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=cmdbuild
+            - POSTGRES_PASSWORD=cmdbuild
             - POSTGRES_DB=openmaint_3
         restart: on-failure
         deploy:
